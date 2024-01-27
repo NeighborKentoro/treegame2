@@ -2,22 +2,35 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
-public class MessageInupt : MonoBehaviour
+public class MessageInput : MonoBehaviour
 {
-    InputField inputField;
+    TMP_InputField inputField;
 
-    // Start is called before the first frame update
-    void Start()
-    {   
+    private void OnEnable()
+    {
+
+        inputField = gameObject.GetComponent<TMP_InputField>();
+        inputField.onEndEdit.AddListener(SendUserMessage);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        if (Input.GetKeyUp(KeyCode.Return))
+        inputField.onEndEdit.RemoveListener(SendUserMessage);
+    }
+
+    private void SendUserMessage(string message)
+    {
+        Debug.Log("send user message");
+        if (string.IsNullOrEmpty(message))
         {
-            Debug.Log(inputField.text);
+            Debug.Log("Not sending");
+            return;
         }
+
+        Debug.Log("sending message");
+        EventManager.UserSendMessage(message);
+        
     }
 }

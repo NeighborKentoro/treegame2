@@ -7,6 +7,10 @@ public class GameManager : NetworkBehaviour
 {
 
     private GameMode currentGameMode;
+
+    [SerializeField]
+    private GameObject messageObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,14 +33,34 @@ public class GameManager : NetworkBehaviour
 
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
+        EventManager.userSendMessageEvent += this.UserSendMessage;
     }
 
     void OnDisable() {
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
+        EventManager.userSendMessageEvent -= this.UserSendMessage;
     }
 
     void ChangeGameMode(GameMode gameMode) {
         this.currentGameMode = gameMode;
+    }
+
+    void UserSendMessage(string message)
+    {
+        // add message to chat thread
+        GameObject chatContent = GameObject.FindGameObjectWithTag("ChatContent");
+        GameObject msgObj = Instantiate(messageObject, chatContent.transform);
+        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        Message msg = msgObj.GetComponent<Message>();
+        msg.setPlayerColor(player.getColor());
+        msg.setMessage(message);
+        //msgObj.transform.position = new Vector2(0, msgObj.transform.position.y);
+        
+
+
+            //GameObject.Instantiate(messageObject);
+
+        // networking
     }
 
     // [ClientRpc(includeOwner = false)]
