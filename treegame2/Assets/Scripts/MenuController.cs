@@ -89,7 +89,7 @@ public class MenuController : MonoBehaviour
             discoveredServers[info.serverId] = info;
             GameObject gameButton = Instantiate(hostedGameButton, this.findGameCanvas.transform);
             HostedGameButton buttonCmp = gameButton.GetComponent<HostedGameButton>();
-            buttonCmp.serverInfo = info;
+            buttonCmp.SetServerInfo(info);
             buttonCmp.connectToHostEvent += Connect;
             gameButton.SetActive(true);
         }

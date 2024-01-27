@@ -496,6 +496,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3063513800884201744, guid: 4f4b49cf4c3d1b240b09a2ad7b03232d, type: 3}
+      propertyPath: autoCreatePlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4412187499033948506, guid: 4f4b49cf4c3d1b240b09a2ad7b03232d, type: 3}
       propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 

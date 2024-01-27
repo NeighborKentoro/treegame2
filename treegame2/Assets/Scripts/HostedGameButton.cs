@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror.Discovery;
-using Mirror;
+using TMPro;
 
 public class HostedGameButton : MonoBehaviour
 {
@@ -10,17 +10,13 @@ public class HostedGameButton : MonoBehaviour
     public delegate void ConnectToHostAction(ServerResponse serverInfo);
 	public event ConnectToHostAction connectToHostEvent;
 
-    public ServerResponse serverInfo;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private ServerResponse serverInfo;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public TextMeshProUGUI textMesh;
+
+    public void SetServerInfo(ServerResponse info) {
+        this.serverInfo = info;
+        textMesh.text = info.EndPoint.Address.ToString();
     }
 
     public void OnClick() {
