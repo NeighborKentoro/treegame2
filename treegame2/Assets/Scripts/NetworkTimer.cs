@@ -12,7 +12,7 @@ public class NetworkTimer : NetworkBehaviour
     public float defaultVoteTime = 20f;
 
     [SyncVar]
-    private float currentTimer;
+    private float currentTimer = -1;
 
     private TextMeshProUGUI textMesh;
 
