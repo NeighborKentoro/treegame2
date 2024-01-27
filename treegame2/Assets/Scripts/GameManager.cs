@@ -23,13 +23,16 @@ public class GameManager : NetworkBehaviour
     
     }
 
-    // void OnGUI()
-    // {
-    //     if (GUI.Button(new Rect(100, 700, 200, 200), "Change Game Mode")) {
-    //         EventManager.ChangeGameMode(GameMode.CHAT);
-    //         this.RpcChangeGameMode(GameMode.CHAT);
-    //     }
-    // }
+    void OnGUI()
+    {
+        if (isServer) {
+            if (GUI.Button(new Rect(100, 700, 200, 100), "Change Game Mode")) {
+                EventManager.ChangeGameMode(GameMode.CHAT);
+                this.RpcChangeGameMode(GameMode.CHAT);
+                Debug.Log("NUM PLAYERS: " + NetworkManager.singleton.numPlayers);
+            }
+        }
+    }
 
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
@@ -63,10 +66,10 @@ public class GameManager : NetworkBehaviour
         // networking
     }
 
-    // [ClientRpc(includeOwner = false)]
-    // public void RpcChangeGameMode(GameMode gameMode)
-    // {
-    //     EventManager.ChangeGameMode(gameMode);
-    //     Debug.Log("Server called me");
-    // }
+    [ClientRpc]
+    public void RpcChangeGameMode(GameMode gameMode)
+    {
+        EventManager.ChangeGameMode(gameMode);
+        Debug.Log("Server called me");
+    }
 }
