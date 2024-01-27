@@ -57,13 +57,10 @@ public class GameManager : NetworkBehaviour
         Message msg = msgObj.GetComponent<Message>();
         msg.setPlayerColor(player.getColor());
         msg.setMessage(message);
-        //msgObj.transform.position = new Vector2(0, msgObj.transform.position.y);
-        
-
-
-            //GameObject.Instantiate(messageObject);
+        msg.transform.localScale = Vector2.one;
 
         // networking
+
     }
 
     [ClientRpc]

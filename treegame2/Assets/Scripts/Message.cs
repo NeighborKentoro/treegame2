@@ -39,7 +39,7 @@ public class Message : MonoBehaviour
             {
                 child.gameObject.GetComponent<TMP_Text>().text = message;
 
-                this.gameObject.transform.localScale = new Vector2(this.gameObject.transform.localScale.x, child.gameObject.transform.localScale.y);
+               // this.gameObject.transform.localScale = new Vector2(this.gameObject.transform.localScale.x, child.gameObject.transform.localScale.y);
             }
         }
     } 
@@ -47,12 +47,5 @@ public class Message : MonoBehaviour
     public void setPlayerColor(Color playerColor)
     {
         this.playerColor = playerColor;
-        if (this.playerColor == GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().getColor())
-        {
-            //this.gameObject.transform.position = new Vector2(-189, this.transform.position.y);
-        } else
-        {
-            //this.gameObject.transform.position = new Vector2(0, this.transform.position.y);
-        }
     }
 }
