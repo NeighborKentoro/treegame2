@@ -54,6 +54,7 @@ public class GameManager : NetworkBehaviour
         Message msg = msgObj.GetComponent<Message>();
         msg.setPlayerColor(player.getColor());
         msg.setMessage(message);
+        msg.transform.localScale = Vector2.one;
 
         // networking
 

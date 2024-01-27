@@ -22,6 +22,7 @@ public class MessageInput : MonoBehaviour
 
     private void SendUserMessage(string message)
     {
+        message = message.Trim();
         Debug.Log("send user message");
         if (string.IsNullOrEmpty(message))
         {

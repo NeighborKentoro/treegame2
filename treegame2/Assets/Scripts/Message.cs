@@ -49,9 +49,11 @@ public class Message : MonoBehaviour
         this.playerColor = playerColor;
         if (this.playerColor == GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().getColor())
         {
-            //this.gameObject.transform.position = new Vector2(-189, this.transform.position.y);
+            this.gameObject.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+            //this.gameObject.transform.position = new Vector2(3, this.transform.position.y);
         } else
         {
+            this.gameObject.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
             //this.gameObject.transform.position = new Vector2(0, this.transform.position.y);
         }
     }
