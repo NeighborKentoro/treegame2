@@ -39,7 +39,7 @@ public class Message : MonoBehaviour
             {
                 child.gameObject.GetComponent<TMP_Text>().text = message;
 
-                this.gameObject.transform.localScale = new Vector2(this.gameObject.transform.localScale.x, child.gameObject.transform.localScale.y);
+               // this.gameObject.transform.localScale = new Vector2(this.gameObject.transform.localScale.x, child.gameObject.transform.localScale.y);
             }
         }
     } 
