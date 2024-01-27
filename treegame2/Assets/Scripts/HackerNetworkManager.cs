@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public struct CreatePlayerMessage : NetworkMessage
-{
-    public Color playerColor;
-}
+public struct CreatePlayerMessage : NetworkMessage { }
 
 
 public class HackerNetworkManager : NetworkManager
@@ -28,6 +25,7 @@ public class HackerNetworkManager : NetworkManager
     public override void OnClientDisconnect() {
         base.OnClientDisconnect();
         Debug.Log("server disconnected");
+        EventManager.OnClientDisconnect();
     }
 
     public override void OnStartServer()
@@ -41,20 +39,17 @@ public class HackerNetworkManager : NetworkManager
     {
         base.OnClientConnect();
 
-        CreatePlayerMessage characterMessage = new CreatePlayerMessage
-        {
-            playerColor = this.playerColors[NetworkManager.singleton.numPlayers]
-        };
+        CreatePlayerMessage characterMessage = new CreatePlayerMessage { };
 
         NetworkClient.Send(characterMessage);
     }
 
     void OnCreateCharacter(NetworkConnectionToClient conn, CreatePlayerMessage message)
     {
-        Debug.Log("create player");
         GameObject gameobject = Instantiate(playerPrefab);
         Player player = gameobject.GetComponent<Player>();
         player.setColor(this.playerColors[NetworkManager.singleton.numPlayers]);
+        player.SetPlayerID(NetworkManager.singleton.numPlayers);
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 }

@@ -18,6 +18,9 @@ public class Player : NetworkBehaviour
     [SerializeField,SyncVar]
     private Color color;
 
+    [SyncVar]
+    private int playerID;
+
     public SpriteRenderer sprite;
 
     // Start is called before the first frame update
@@ -42,5 +45,13 @@ public class Player : NetworkBehaviour
     public void setColor(Color color)
     {
         this.color = color;
+    }
+
+    public int GetPlayerID() {
+        return this.playerID;
+    }
+
+    public void SetPlayerID(int id) {
+        this.playerID = id;
     }
 }
