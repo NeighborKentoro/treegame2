@@ -6,7 +6,6 @@ using Mirror;
 public class GameManager : NetworkBehaviour
 {
 
-    [SyncVar]
     private GameMode currentGameMode;
 
     [SerializeField]
@@ -23,6 +22,14 @@ public class GameManager : NetworkBehaviour
     {
         
     }
+
+    // void OnGUI()
+    // {
+    //     if (GUI.Button(new Rect(100, 700, 200, 200), "Change Game Mode")) {
+    //         EventManager.ChangeGameMode(GameMode.CHAT);
+    //         this.RpcChangeGameMode(GameMode.CHAT);
+    //     }
+    // }
 
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
@@ -55,4 +62,11 @@ public class GameManager : NetworkBehaviour
 
         // networking
     }
+
+    // [ClientRpc(includeOwner = false)]
+    // public void RpcChangeGameMode(GameMode gameMode)
+    // {
+    //     EventManager.ChangeGameMode(gameMode);
+    //     Debug.Log("Server called me");
+    // }
 }
