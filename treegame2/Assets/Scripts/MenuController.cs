@@ -81,13 +81,13 @@ public class MenuController : MonoBehaviour
 
     public void StartGame() {
         networkDiscovery.StopDiscovery();
-        EventManager.ChangeGameMode(GameMode.CHAT);
+        EventManager.ChangeGameMode(GameMode.CHAT, Player.Role.member);
         this.roomCanvas.enabled = false;
         this.chatCanvas.enabled = true;
         EventManager.OnStartGame();
     }
 
-    void ChangeGameMode(GameMode gameMode) {
+    void ChangeGameMode(GameMode gameMode, Player.Role winner) {
         switch(gameMode)
         {
             case GameMode.CHAT:

@@ -43,7 +43,7 @@ public class NetworkTimer : NetworkBehaviour
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
     }
 
-    void ChangeGameMode(GameMode gameMode) {
+    void ChangeGameMode(GameMode gameMode, Player.Role winner) {
         switch (gameMode) {
             case GameMode.CHAT:
                 this.currentTimer = this.defaultChatTime;
