@@ -157,12 +157,12 @@ public class MenuController : MonoBehaviour
 
     public void OnServerConnect() {
         //Server doesn't call this - so for 5 player threshold subtract 1
-        if (NetworkManager.singleton.numPlayers >= 1) {
+        if (NetworkManager.singleton.numPlayers >= 5) {
             this.startGameButton.interactable = true;
         }
     }
     public void OnServerDisconnect() {
-        if (NetworkManager.singleton.numPlayers < 1) {
+        if (NetworkManager.singleton.numPlayers < 5) {
             this.startGameButton.interactable = false;
         }
     }
