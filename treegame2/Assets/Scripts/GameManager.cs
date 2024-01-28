@@ -122,7 +122,7 @@ public class GameManager : NetworkBehaviour
             if (Math.Floor((Decimal)(totalNumberOfVotes / totalActivePlayers)) * 100 > 50)
             {
                 // set player with most votes to be kicked
-                players[playerWithMostVotes].SetKicked(true);
+                KickPlayer(playerWithMostVotes);
                 Debug.Log("Kick player " + playerWithMostVotes);
             }
         }
