@@ -25,10 +25,13 @@ public class NetworkTimer : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
         if (this.currentTimer >= 0) {
             this.textMesh.text = Math.Floor(this.currentTimer).ToString();
             this.currentTimer -= Time.deltaTime;
+        } else {
+            if (isServer) {
+                EventManager.OnTimerExpired();
+            }
         }
     }
 

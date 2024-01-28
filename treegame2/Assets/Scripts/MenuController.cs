@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror.Discovery;
 using Mirror;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
@@ -17,14 +18,20 @@ public class MenuController : MonoBehaviour
 
     public GameObject hostedGameButton;
 
+    public Button startGameButton;
+
     void OnEnable() {
         networkDiscovery.OnServerFound.AddListener(OnDiscoveredServer);
         EventManager.onClientDisconnectEvent += OnClientDisconnect;
+        EventManager.onServerConnectEvent += OnServerConnect;
+        EventManager.onServerDisconnectEvent += OnServerDisconnect;
     }
 
     void OnDisable() {
         networkDiscovery.OnServerFound.RemoveListener(OnDiscoveredServer);
         EventManager.onClientDisconnectEvent -= OnClientDisconnect;
+        EventManager.onServerConnectEvent -= OnServerConnect;
+        EventManager.onServerDisconnectEvent -= OnServerDisconnect;
     }
 
     public void HostGame() {
@@ -60,6 +67,11 @@ public class MenuController : MonoBehaviour
         networkDiscovery.StopDiscovery();
         this.findGameCanvas.enabled = false;
         this.mainMenuCanvas.enabled = true;
+    }
+
+    public void StartGame() {
+        EventManager.ChangeGameMode(GameMode.CHAT);
+        this.roomCanvas.enabled = false;
     }
 
     public void ExitGame() {
@@ -99,6 +111,19 @@ public class MenuController : MonoBehaviour
             buttonCmp.SetServerInfo(info);
             buttonCmp.connectToHostEvent += Connect;
             gameButton.SetActive(true);
+        }
+    }
+
+    public void OnServerConnect() {
+        //Server doesn't call this - so for 5 player threshold subtract 1
+        if (NetworkManager.singleton.numPlayers >= 1) {
+            this.startGameButton.interactable = true;
+            Debug.Log(NetworkManager.singleton.numPlayers);
+        }
+    }
+    public void OnServerDisconnect() {
+        if (NetworkManager.singleton.numPlayers < 1) {
+            this.startGameButton.interactable = false;
         }
     }
 }
