@@ -11,12 +11,14 @@ public class EventManager : MonoBehaviour
     public delegate void UserSendMessageAction(string message, int playerID);
     public static event UserSendMessageAction userSendMessageEvent;
 
-    // public delegate void PlayerChatAction()
+    public delegate void PlayerChatAction(string message, Color color, int playerID, bool sentByHacker);
+    public static event PlayerChatAction playerChatEvent;
 
     public delegate void NetworkAction();
     public static event NetworkAction onClientDisconnectEvent;
     public static event NetworkAction onServerConnectEvent;
     public static event NetworkAction onServerDisconnectEvent;
+    public static event NetworkAction onStartGameEvent;
 
     public delegate void TimerAction();
     public static event TimerAction timerExpiredEvent;
@@ -43,5 +45,13 @@ public class EventManager : MonoBehaviour
 
     public static void OnTimerExpired() {
         timerExpiredEvent?.Invoke();
+    }
+
+    public static void OnStartGame() {
+        onStartGameEvent?.Invoke();
+    }
+
+    public static void OnPlayerChat(string message, Color color, int playerID, bool sentByHacker) {
+        playerChatEvent?.Invoke(message, color, playerID, sentByHacker);
     }
 }

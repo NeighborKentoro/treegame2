@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 
@@ -15,6 +16,14 @@ public class HackerNetworkManager : NetworkManager
     readonly Stack<int> availablePlayerIDs = new Stack<int>();
     readonly Dictionary<int, int> playerIDByConnectionID = new Dictionary<int, int>();
     public Color[] playerColors = new Color[8];
+
+    void OnEnable() {
+        EventManager.onStartGameEvent += OnStartGame;
+    }
+    void OnDisable() {
+        EventManager.onStartGameEvent -= OnStartGame;
+    }
+
 
     public override void OnServerConnect (NetworkConnectionToClient connection) {
         base.OnServerConnect(connection);
@@ -64,9 +73,26 @@ public class HackerNetworkManager : NetworkManager
         NetworkServer.AddPlayerForConnection(conn, gameobject);
     }
 
-    void OnPlayerChat(NetworkConnectionToClient conn, PlayerChatMessage message) {
-        Debug.Log("Received " + message.message + " from " + message.playerID);
-        Color msgColor = this.playerColors[message.playerID];
-        bool sentByHacker = this.playerIDByConnectionID[conn.connectionId] != message.playerID;
+    void OnPlayerChat(NetworkConnectionToClient conn, PlayerChatMessage pcm) {
+        Debug.Log("Received " + pcm.message + " from player " + pcm.playerID);
+        Color msgColor = this.playerColors[pcm.playerID];
+        bool sentByHacker = this.playerIDByConnectionID[conn.connectionId] != pcm.playerID;
+        EventManager.OnPlayerChat(pcm.message, msgColor, pcm.playerID, sentByHacker);
+    }
+
+    public void OnStartGame() {
+        GameObject[] hackButtons = GameObject.FindGameObjectsWithTag("HackablePlayer");
+        for(int i = 0; i < 8; i++) {
+            GameObject hackButton = hackButtons[i];
+            HackablePlayerIcon hpi = hackButton.GetComponent<HackablePlayerIcon>();
+            if (i < playerIDByConnectionID.Count) {
+                hpi.enabled = true;
+                int playerID = playerIDByConnectionID.Values.ElementAt(i);
+                hpi.playerID = playerID;
+                hpi.color = this.playerColors[playerID];
+            } else {
+                hpi.playerID = -1;
+            }
+        }
     }
 }

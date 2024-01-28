@@ -8,13 +8,12 @@ public class GameManager : NetworkBehaviour
 
     private GameMode currentGameMode;
 
-    [SerializeField]
-    private GameObject messageObject;
-
     [SyncVar]
     public int currentRound;
 
     public int defaultRounds;
+
+    public GameObject messageObject;
 
     void Start()
     {
@@ -24,21 +23,17 @@ public class GameManager : NetworkBehaviour
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
         EventManager.timerExpiredEvent += this.TimerExpired;
+        EventManager.playerChatEvent += this.OnSendChat;
     }
 
     void OnDisable() {
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
         EventManager.timerExpiredEvent -= this.TimerExpired;
+        EventManager.playerChatEvent -= this.OnSendChat;
     }
 
     void ChangeGameMode(GameMode gameMode) {
         this.currentGameMode = gameMode;
-
-        switch(gameMode)
-        {
-          
-        }
-
         if (isServer) {
             this.RpcChangeGameMode(gameMode);
         }
@@ -62,14 +57,17 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    void UserSendMessage(string message)
+    public void OnSendChat(string message, Color color, int playerID, bool sentByHacker) {
+        RpcSendChatMessage(message, color, playerID, sentByHacker);
+    }
+
+    [ClientRpc]
+    public void RpcSendChatMessage(string message, Color color, int playerID, bool sentByHacker)
     {
-        // add message to chat thread
         GameObject chatContent = GameObject.FindGameObjectWithTag("ChatContent");
         GameObject msgObj = Instantiate(messageObject, chatContent.transform);
-        Player player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         Message msg = msgObj.GetComponent<Message>();
-        msg.setPlayerColor(player.getColor());
+        msg.setPlayerColor(color);
         msg.setMessage(message);
         msg.transform.localScale = Vector2.one;
     }
