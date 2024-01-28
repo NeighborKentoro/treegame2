@@ -24,6 +24,19 @@ public class HackablePlayerIcon : NetworkBehaviour
         textMesh = this.GetComponentInChildren<TextMeshProUGUI>();
     }
 
+    void Update() {
+        if (this.playerID < 0) {
+            this.btn.enabled = false;
+            this.btn.image.enabled = false;
+            this.textMesh.text = "";
+        } else {
+            // this.enabled = true;
+            this.btn.enabled = true;
+            this.textMesh.text = playerID.ToString();
+            this.btn.image.color = this.color;
+        }
+    }
+
     public void clicked()
     {
         MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
