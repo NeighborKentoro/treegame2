@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Mirror;
 using System;
 using TMPro;
+using System.Linq;
 
 public class GameManager : NetworkBehaviour
 {
@@ -91,8 +92,14 @@ public class GameManager : NetworkBehaviour
         // all players in game
         GameObject[] connectedPlayers = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
 
-        // get player objects in a sorted array
-        Player[] players = GameObject.Find("NetworkManager").GetComponent<HackerNetworkManager>().orderPlayerArray(connectedPlayers);
+        Player[] players = new Player[connectedPlayers.Length];
+        foreach(GameObject gameObject in connectedPlayers)
+        {
+            Player p = gameObject.GetComponent<Player>();
+            players[p.GetPlayerID()] = p;
+        }
+
+        players = players.OrderBy(x => x.GetPlayerID()).ToArray();
 
         // get number of unkicked players who can vote
         int totalActivePlayers = 0;
@@ -110,6 +117,7 @@ public class GameManager : NetworkBehaviour
             int prevVotes = 0;
             foreach (KeyValuePair<int, int> entry in votesByPlayerID)
             {
+                Debug.Log(entry.Value + " votes for Player " + entry.Key);
                 totalNumberOfVotes += entry.Value;
                 if (entry.Value > prevVotes)
                 {
@@ -117,7 +125,6 @@ public class GameManager : NetworkBehaviour
                     playerWithMostVotes = entry.Key;
                 }
             }
-
             // number of votes must be greater than the number of active players
             if (Math.Floor((Decimal)(totalNumberOfVotes / totalActivePlayers)) * 100 > 50)
             {
@@ -135,10 +142,11 @@ public class GameManager : NetworkBehaviour
         // all players in game
         GameObject[] connectedPlayers = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
 
-        // get player objects in a sorted array
-        Player[] players = GameObject.Find("NetworkManager").GetComponent<HackerNetworkManager>().orderPlayerArray(connectedPlayers);
-
-
+        Player[] players = new Player[connectedPlayers.Length];
+        foreach(GameObject go in connectedPlayers) {
+            Player p = go.GetComponent<Player>();
+            players[p.GetPlayerID()] = p;
+        }
 
         // get unkicked players 
         // ArrayList unKickedPlayers = new ArrayList();
@@ -158,7 +166,6 @@ public class GameManager : NetworkBehaviour
             }
         }
 
-
         // Player win condition - no hackers left
         bool gameOver = false;
         if (hackersLeft == 0 && !gameOver)
@@ -168,7 +175,7 @@ public class GameManager : NetworkBehaviour
             gameOver = true;
         }
 
-        if ((playersLeft == 0 || currentRound >= defaultRounds && hackersLeft > 0) && !gameOver)
+        if ((playersLeft == 0 || (currentRound >= defaultRounds && hackersLeft > 0)) && !gameOver)
         {
             // HACKERS WIN BABBBBY
             EventManager.ChangeGameMode(GameMode.RESULTS, Player.Role.hacker);
@@ -185,7 +192,7 @@ public class GameManager : NetworkBehaviour
         if (isServer) {
             AddVote(playerID);
         } else {
-            RpcVote(playerID);
+            CmdVote(playerID);
         }
     }
 
@@ -230,9 +237,10 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    [Command]
-    public void RpcVote(int playerID)
+    [Command(requiresAuthority = false)]
+    public void CmdVote(int playerID)
     {
+        Debug.Log("voted on server");
         AddVote(playerID);
     }
 
