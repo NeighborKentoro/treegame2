@@ -18,6 +18,8 @@ public class MenuController : MonoBehaviour
 
     public Canvas chatCanvas;
 
+    public Canvas voteCanvas;
+
     public GameObject hostedGameButton;
 
     public Button startGameButton;
