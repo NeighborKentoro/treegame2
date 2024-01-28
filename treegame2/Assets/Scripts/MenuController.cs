@@ -72,6 +72,7 @@ public class MenuController : MonoBehaviour
     public void StartGame() {
         EventManager.ChangeGameMode(GameMode.CHAT);
         this.roomCanvas.enabled = false;
+        GameObject.Find("Chat").SetActive(true);
     }
 
     public void ExitGame() {
