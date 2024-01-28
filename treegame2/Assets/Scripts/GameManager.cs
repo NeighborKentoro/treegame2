@@ -16,6 +16,12 @@ public class GameManager : NetworkBehaviour
 
     public int defaultRounds;
 
+    public Canvas chatCanvas;
+
+    public Canvas voteCanvas;
+
+    public Canvas resultsCanvas;
+
     void Start()
     {
         this.currentGameMode = GameMode.MENU;
@@ -36,7 +42,19 @@ public class GameManager : NetworkBehaviour
 
         switch(gameMode)
         {
-          
+            case GameMode.CHAT:
+                voteCanvas.enabled = false;
+                chatCanvas.enabled = true;
+                break;
+            case GameMode.VOTE:
+                chatCanvas.enabled=false;
+                voteCanvas.enabled=true;
+                break;
+            case GameMode.RESULTS:
+                chatCanvas.enabled = false;
+                voteCanvas.enabled = false;
+                resultsCanvas.enabled = true;
+                break;
         }
 
         if (isServer) {

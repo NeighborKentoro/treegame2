@@ -51,6 +51,8 @@ MonoBehaviour:
   messageObject: {fileID: 421801732514758215, guid: 41591244e511959498631838c0081a13, type: 3}
   currentRound: 0
   defaultRounds: 4
+  chatCanvas: {fileID: 0}
+  voteCanvas: {fileID: 0}
 --- !u!114 &2745293647944306296
 MonoBehaviour:
   m_ObjectHideFlags: 0
