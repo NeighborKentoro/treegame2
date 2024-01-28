@@ -99,7 +99,7 @@ public class GameManager : NetworkBehaviour
         msg.transform.localScale = Vector2.one;
 
         ScrollRect chatArea = GameObject.FindGameObjectWithTag("ChatArea").GetComponent<ScrollRect>();
-        chatArea.verticalNormalizedPosition = -0.2f;
+        chatArea.verticalNormalizedPosition = -0.35f;
     }
 
     [ClientRpc]

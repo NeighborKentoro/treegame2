@@ -14,6 +14,11 @@ public class MessageInput : MonoBehaviour
     {
     }
 
+    private void Update()
+    {
+        inputField.ActivateInputField();
+    }
+
     private void OnEnable()
     {
 
