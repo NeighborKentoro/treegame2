@@ -47,7 +47,7 @@ public class HackerNetworkManager : NetworkManager
     public override void OnStartServer()
     {
         base.OnStartServer();
-        for(int i = 0; i < 8; i++) {
+        for(int i = 7; i >= 0; i--) {
             availablePlayerIDs.Push(i);
         }
         NetworkServer.RegisterHandler<CreatePlayerMessage>(OnCreateCharacter);
@@ -80,9 +80,22 @@ public class HackerNetworkManager : NetworkManager
     }
 
     public void OnStartGame() {
+        GameObject[] players = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
+        int hackerCount = playerIDByConnectionID.Count == 8 ? 3 : 2;
+        HashSet<int> hackerIDs = new HashSet<int>();
+        while (hackerIDs.Count < hackerCount) {
+            int randomID = Random.Range(0, playerIDByConnectionID.Count);
+            if (!hackerIDs.Contains(randomID)) {
+                hackerIDs.Add(randomID);
+                players[randomID].GetComponent<Player>().SetRole(Player.Role.hacker);
+            }
+        }
+        
         GameObject[] hackButtons = GameObject.FindGameObjectsWithTag("HackablePlayer");
+        // GameObject[] voteButtons = GameObject.FindGameObjectsWithTag("VotePlayer");
         for(int i = 0; i < 8; i++) {
             GameObject hackButton = hackButtons[i];
+            // GameObject voteButton = voteButtons[i];
             HackablePlayerIcon hpi = hackButton.GetComponent<HackablePlayerIcon>();
             if (i < playerIDByConnectionID.Count) {
                 hpi.btn.enabled = true;
