@@ -8,6 +8,12 @@ public class MessageInput : MonoBehaviour
 {
     TMP_InputField inputField;
 
+    private Player messagingAs;
+
+    private void Start()
+    {
+    }
+
     private void OnEnable()
     {
 
@@ -33,5 +39,15 @@ public class MessageInput : MonoBehaviour
         Debug.Log("sending message");
         EventManager.UserSendMessage(message);
         
+    }
+
+    public void setMessagingAs(Player player)
+    {
+        this.messagingAs = player;
+        GameObject placeholder = GameObject.Find("MessageInputPlaceholder");
+        placeholder.GetComponent<TMP_Text>().text = "Messaging as other player...";
+
+        GameObject messageInputText = GameObject.Find("MessageInputText");
+        messageInputText.GetComponent<TMP_Text>().color = player.getColor();
     }
 }

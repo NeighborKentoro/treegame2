@@ -6,7 +6,7 @@ using Mirror;
 public class Player : NetworkBehaviour
 {
     [SerializeField]
-    enum Role
+    public enum Role
     {
         hacker,
         member
@@ -42,5 +42,10 @@ public class Player : NetworkBehaviour
     public void setColor(Color color)
     {
         this.color = color;
+    }
+
+    public Role getRole()
+    {
+        return this.role;
     }
 }
