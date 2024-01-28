@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class GameManager : NetworkBehaviour
@@ -96,6 +97,9 @@ public class GameManager : NetworkBehaviour
         msg.setPlayerColor(color);
         msg.setMessage(message);
         msg.transform.localScale = Vector2.one;
+
+        ScrollRect chatArea = GameObject.FindGameObjectWithTag("ChatArea").GetComponent<ScrollRect>();
+        chatArea.verticalNormalizedPosition = -0.2f;
     }
 
     [ClientRpc]
