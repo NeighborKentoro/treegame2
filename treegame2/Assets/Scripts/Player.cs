@@ -82,6 +82,10 @@ public class Player : NetworkBehaviour
         return this.role;
     }
 
+    public void SetRole(Role role) {
+        this.role = role;
+    }
+
     public void UserSendMessage(string message, int playerID) {
         if (isLocalPlayer) {
             PlayerChatMessage chatMessage = new PlayerChatMessage {
