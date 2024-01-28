@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2745293647944306296}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,9 +48,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  messageObject: {fileID: 0}
-  currentRound: 0
-  defaultRounds: 4
+  messageObject: {fileID: 421801732514758215, guid: 41591244e511959498631838c0081a13, type: 3}
 --- !u!114 &2745293647944306296
 MonoBehaviour:
   m_ObjectHideFlags: 0

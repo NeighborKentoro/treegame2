@@ -6,7 +6,7 @@ using Mirror;
 public class Player : NetworkBehaviour
 {
     [SerializeField]
-    enum Role
+    public enum Role
     {
         hacker,
         member
@@ -53,5 +53,10 @@ public class Player : NetworkBehaviour
 
     public void SetPlayerID(int id) {
         this.playerID = id;
+    }
+
+    public Role getRole()
+    {
+        return this.role;
     }
 }
