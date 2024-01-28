@@ -9,7 +9,8 @@ public class Player : NetworkBehaviour
     public enum Role
     {
         hacker,
-        member
+        member,
+        none
     }
 
     [SerializeField,SyncVar]

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Mirror;
 using System;
+using TMPro;
 
 public class GameManager : NetworkBehaviour
 {
@@ -51,6 +52,17 @@ public class GameManager : NetworkBehaviour
 
     void ChangeGameMode(GameMode gameMode, Player.Role winner) {
         this.currentGameMode = gameMode;
+
+        switch (winner)
+        {
+            case Player.Role.hacker:
+                GameObject.Find("WinnerText").GetComponent<TMP_Text>().text = "Hackers win!";
+                break;
+            case Player.Role.member:
+                GameObject.Find("WinnerText").GetComponent<TMP_Text>().text = "Hackers have been elimited! Group chat wins!";
+                break;
+        }
+
         if (isServer) {
             this.RpcChangeGameMode(gameMode, winner);
         }
@@ -59,7 +71,7 @@ public class GameManager : NetworkBehaviour
     void TimerExpired() {
         switch (this.currentGameMode) {
             case GameMode.CHAT:
-                EventManager.ChangeGameMode(GameMode.VOTE, Player.Role.member);
+                EventManager.ChangeGameMode(GameMode.VOTE, Player.Role.none);
                 break;
             case GameMode.VOTE:
                 this.currentRound++;
@@ -148,31 +160,25 @@ public class GameManager : NetworkBehaviour
 
 
         // Player win condition - no hackers left
-        if (hackersLeft == 0)
+        bool gameOver = false;
+        if (hackersLeft == 0 && !gameOver)
         {
             // PLAYER WINS BABBBY
             EventManager.ChangeGameMode(GameMode.RESULTS, Player.Role.member);
+            gameOver = true;
         }
 
-        if (playersLeft == 0)
+        if ((playersLeft == 0 || currentRound >= defaultRounds && hackersLeft > 0) && !gameOver)
         {
             // HACKERS WIN BABBBBY
             EventManager.ChangeGameMode(GameMode.RESULTS, Player.Role.hacker);
+            gameOver=true;
         }
 
-        if (currentRound >= defaultRounds && hackersLeft > 0)
+        if (currentRound < defaultRounds && !gameOver)
         {
-            // HACKERS WIN BABBBBY
-            EventManager.ChangeGameMode(GameMode.RESULTS, Player.Role.member);
+            EventManager.ChangeGameMode(GameMode.CHAT, Player.Role.none);
         }
-
-        if (currentRound < defaultRounds)
-        {
-            EventManager.ChangeGameMode(GameMode.CHAT, Player.Role.member);
-        }
-
-        // if we get here shit is broken
-        EventManager.ChangeGameMode(GameMode.MENU, Player.Role.member);
     }
 
     public void OnVote(int playerID) {
