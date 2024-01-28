@@ -16,31 +16,18 @@ public class GameManager : NetworkBehaviour
 
     public int defaultRounds;
 
-    // Start is called before the first frame update
     void Start()
     {
         this.currentGameMode = GameMode.MENU;
     }
 
-    void OnGUI()
-    {
-        if (isServer) {
-            if (GUI.Button(new Rect(100, 700, 200, 100), "Change Game Mode")) {
-                EventManager.ChangeGameMode(GameMode.CHAT);
-                Debug.Log("NUM PLAYERS: " + NetworkManager.singleton.numPlayers);
-            }
-        }
-    }
-
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
-        EventManager.userSendMessageEvent += this.UserSendMessage;
         EventManager.timerExpiredEvent += this.TimerExpired;
     }
 
     void OnDisable() {
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
-        EventManager.userSendMessageEvent -= this.UserSendMessage;
         EventManager.timerExpiredEvent -= this.TimerExpired;
     }
 
@@ -85,9 +72,6 @@ public class GameManager : NetworkBehaviour
         msg.setPlayerColor(player.getColor());
         msg.setMessage(message);
         msg.transform.localScale = Vector2.one;
-
-        // networking
-
     }
 
     [ClientRpc]
@@ -96,6 +80,5 @@ public class GameManager : NetworkBehaviour
         if (isClientOnly) {
             EventManager.ChangeGameMode(gameMode);
         }
-        Debug.Log("Server called me");
     }
 }

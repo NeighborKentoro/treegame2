@@ -37,6 +37,14 @@ public class Player : NetworkBehaviour
         }
     }
 
+    void OnEnable() {
+        EventManager.userSendMessageEvent += this.UserSendMessage;
+    }
+
+    void OnDisable() {
+        EventManager.userSendMessageEvent -= this.UserSendMessage;
+    }
+
     public Color getColor()
     {
         return this.color;
@@ -58,5 +66,15 @@ public class Player : NetworkBehaviour
     public Role getRole()
     {
         return this.role;
+    }
+
+    public void UserSendMessage(string message, int playerID) {
+        if (isLocalPlayer) {
+            PlayerChatMessage chatMessage = new PlayerChatMessage {
+                playerID = playerID,
+                message = message
+            };
+            NetworkClient.Send(chatMessage);
+        }
     }
 }

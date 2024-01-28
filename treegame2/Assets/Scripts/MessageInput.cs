@@ -37,8 +37,7 @@ public class MessageInput : MonoBehaviour
         }
 
         Debug.Log("sending message");
-        EventManager.UserSendMessage(message);
-        
+        EventManager.UserSendMessage(message, messagingAs.GetPlayerID());
     }
 
     public void setMessagingAs(Player player)
