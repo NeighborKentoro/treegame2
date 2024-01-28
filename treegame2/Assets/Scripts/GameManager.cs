@@ -86,6 +86,7 @@ public class GameManager : NetworkBehaviour
 
     void TallyVotes() {
     
+        votesByPlayerID.Clear();
     }
 
     public void OnVote(int playerID) {
