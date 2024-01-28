@@ -31,12 +31,14 @@ public class GameManager : NetworkBehaviour
         EventManager.changeGameModeEvent += this.ChangeGameMode;
         EventManager.timerExpiredEvent += this.TimerExpired;
         EventManager.playerChatEvent += this.OnSendChat;
+        EventManager.voteEvent += this.OnVote;
     }
 
     void OnDisable() {
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
         EventManager.timerExpiredEvent -= this.TimerExpired;
         EventManager.playerChatEvent -= this.OnSendChat;
+        EventManager.voteEvent -= this.OnVote;
     }
 
     void ChangeGameMode(GameMode gameMode) {
@@ -86,8 +88,20 @@ public class GameManager : NetworkBehaviour
     
     }
 
-    public void OnVote(int playerdID) {
-    
+    public void OnVote(int playerID) {
+        if (isServer) {
+            AddVote(playerID);
+        } else {
+            RpcVote(playerID);
+        }
+    }
+
+    void AddVote(int playerID) {
+        if (votesByPlayerID.ContainsKey(playerID)) {
+            votesByPlayerID[playerID] += 1;
+        } else {
+            votesByPlayerID.Add(playerID, 1);
+        }
     }
 
     public void OnSendChat(string message, Color color, int playerID, bool sentByHacker) {
@@ -116,7 +130,6 @@ public class GameManager : NetworkBehaviour
     [Command]
     public void RpcVote(int playerID)
     {
-
-    
+        AddVote(playerID);
     }
 }
