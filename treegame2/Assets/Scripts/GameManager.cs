@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
@@ -46,6 +47,25 @@ public class GameManager : NetworkBehaviour
 
     void ChangeGameMode(GameMode gameMode) {
         this.currentGameMode = gameMode;
+
+        if (gameMode == GameMode.CHAT)
+        {
+            GameObject[] connectedPlayers = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
+            GameObject[] hackablePlayers = GameObject.FindGameObjectsWithTag("HackablePlayer");
+            for (int i = 0; i < hackablePlayers.Length; i++)
+            {
+                if (i > connectedPlayers.Length)
+                {
+                    hackablePlayers[i].SetActive(false);
+                }
+                else
+                {
+                    hackablePlayers[i].SetActive(true);
+                    hackablePlayers[i].GetComponent<HackablePlayerIcon>().player = connectedPlayers[i];
+                    hackablePlayers[i].GetComponent<Image>().color = connectedPlayers[i].GetComponent<Player>().getColor();
+                }
+            }
+        }
     }
 
     void UserSendMessage(string message)
