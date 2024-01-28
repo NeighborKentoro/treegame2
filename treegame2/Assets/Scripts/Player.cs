@@ -99,7 +99,6 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer) {
             MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
             messageInput.setMessagingAs(playerID, color);
-            
         }
     }
 
