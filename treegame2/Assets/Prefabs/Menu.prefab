@@ -462,7 +462,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000015258789, y: -86657.33}
+  m_AnchoredPosition: {x: -0.000015258789, y: -88692.375}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1729650653805984580
@@ -7636,6 +7636,7 @@ MonoBehaviour:
   roomCanvas: {fileID: 3263173636458418508}
   chatCanvas: {fileID: 3311120227198802310}
   voteCanvas: {fileID: 3019156954554788206}
+  resultsCanvas: {fileID: 5659542885152411085}
   hostedGameButton: {fileID: 1057295437591549436}
   startGameButton: {fileID: 4812873912350160373}
 --- !u!1 &7067271036770525717
