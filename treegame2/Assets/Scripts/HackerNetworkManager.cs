@@ -91,7 +91,9 @@ public class HackerNetworkManager : NetworkManager
                 playerSorted[randomID].SetRole(Player.Role.hacker);
             }
         }
-        
+
+        GameManager.singleton.RpcFixPlayerUI();
+
         GameObject[] hackButtons = GameObject.FindGameObjectsWithTag("HackablePlayer");
         GameObject[] voteButtons = GameObject.FindGameObjectsWithTag("VotePlayer");
         for (int i = 0; i < 8; i++) {
@@ -118,7 +120,9 @@ public class HackerNetworkManager : NetworkManager
 
         foreach(GameObject gameObject in players)
         {
-            playerArray.Append(gameObject.GetComponent<Player>());
+            Player p = gameObject.GetComponent<Player>();
+            p.SetRole(Player.Role.member);
+            playerArray[p.GetPlayerID()] = p;
         }
 
         return playerArray.OrderBy(x => x.GetPlayerID()).ToArray();

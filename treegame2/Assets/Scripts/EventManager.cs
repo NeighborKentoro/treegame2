@@ -32,7 +32,6 @@ public class EventManager : MonoBehaviour
 
     public static void UserSendMessage(string message, int playerID)
     {
-        Debug.Log("user send message " + message + "playerID " + playerID);
         userSendMessageEvent?.Invoke(message, playerID);
     }
 

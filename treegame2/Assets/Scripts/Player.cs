@@ -13,7 +13,7 @@ public class Player : NetworkBehaviour
     }
 
     [SerializeField,SyncVar]
-    private Role role;
+    private Role role = Role.member;
 
     [SerializeField,SyncVar]
     private Color color;
@@ -26,25 +26,22 @@ public class Player : NetworkBehaviour
 
     public SpriteRenderer sprite;
 
-    // Start is called before the first frame update
+    GameObject hackablePlayers;
+
+    RectTransform rectTrans;
+
     void Start()
     {
         sprite.color = this.color;
-        if (isLocalPlayer)
-        {
-            MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
-            messageInput.setMessagingAs(playerID, color);
-            GameObject chatArea = GameObject.FindGameObjectWithTag("ChatArea");
-            chatArea.GetComponent<RectTransform>().sizeDelta = new Vector2(715, this.role == Role.hacker ? 750 : 1000);
+        hackablePlayers = GameObject.Find("HackablePlayers");
+        GameObject chatArea = GameObject.FindGameObjectWithTag("ChatArea");
+        rectTrans = chatArea.GetComponent<RectTransform>();
+    }
 
-            if (role == Role.member)
-            {
-                GameObject.Find("HackablePlayers").SetActive(false);
-            }
-            else
-            {
-                GameObject.Find("HackablePlayers").SetActive(true);
-            }
+    void Update() {
+        if (isLocalPlayer) {
+            hackablePlayers.SetActive(role == Role.hacker);
+            rectTrans.sizeDelta = new Vector2(715, this.role == Role.hacker ? 750 : 1000);
         }
     }
 
@@ -98,6 +95,14 @@ public class Player : NetworkBehaviour
                 message = message
             };
             NetworkClient.Send(chatMessage);
+        }
+    }
+
+    public void FixPlayerUI () {
+        if (isLocalPlayer) {
+            MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
+            messageInput.setMessagingAs(playerID, color);
+            
         }
     }
 }
