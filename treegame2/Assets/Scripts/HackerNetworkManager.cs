@@ -13,18 +13,17 @@ public class HackerNetworkManager : NetworkManager
 
     public override void OnServerConnect (NetworkConnectionToClient connection) {
         base.OnServerConnect(connection);
-        Debug.Log("client connected baby");
+        EventManager.OnServerConnect();
     }
 
     public override void OnServerDisconnect(NetworkConnectionToClient conn)
     {
         base.OnServerDisconnect(conn);
-        Debug.Log("client disconnected baby");
+        EventManager.OnServerDisconnect();
     }
 
     public override void OnClientDisconnect() {
         base.OnClientDisconnect();
-        Debug.Log("server disconnected");
         EventManager.OnClientDisconnect();
     }
 

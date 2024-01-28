@@ -13,6 +13,11 @@ public class EventManager : MonoBehaviour
 
     public delegate void NetworkAction();
     public static event NetworkAction onClientDisconnectEvent;
+    public static event NetworkAction onServerConnectEvent;
+    public static event NetworkAction onServerDisconnectEvent;
+
+    public delegate void TimerAction();
+    public static event TimerAction timerExpiredEvent;
 
     public static void ChangeGameMode(GameMode gameMode) {
         changeGameModeEvent?.Invoke(gameMode);
@@ -26,5 +31,15 @@ public class EventManager : MonoBehaviour
 
     public static void OnClientDisconnect() {
         onClientDisconnectEvent?.Invoke();
+    }
+    public static void OnServerConnect() {
+        onServerConnectEvent?.Invoke();
+    }
+    public static void OnServerDisconnect() {
+        onServerDisconnectEvent?.Invoke();
+    }
+
+    public static void OnTimerExpired() {
+        timerExpiredEvent?.Invoke();
     }
 }

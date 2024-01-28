@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using UnityEngine.UI;
 
 public class GameManager : NetworkBehaviour
 {
@@ -12,16 +11,15 @@ public class GameManager : NetworkBehaviour
     [SerializeField]
     private GameObject messageObject;
 
+    [SyncVar]
+    public int currentRound;
+
+    public int defaultRounds;
+
     // Start is called before the first frame update
     void Start()
     {
-        this.currentGameMode = GameMode.CHAT;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    
+        this.currentGameMode = GameMode.MENU;
     }
 
     void OnGUI()
@@ -29,7 +27,6 @@ public class GameManager : NetworkBehaviour
         if (isServer) {
             if (GUI.Button(new Rect(100, 700, 200, 100), "Change Game Mode")) {
                 EventManager.ChangeGameMode(GameMode.CHAT);
-                this.RpcChangeGameMode(GameMode.CHAT);
                 Debug.Log("NUM PLAYERS: " + NetworkManager.singleton.numPlayers);
             }
         }
@@ -38,33 +35,37 @@ public class GameManager : NetworkBehaviour
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
         EventManager.userSendMessageEvent += this.UserSendMessage;
+        EventManager.timerExpiredEvent += this.TimerExpired;
     }
 
     void OnDisable() {
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
         EventManager.userSendMessageEvent -= this.UserSendMessage;
+        EventManager.timerExpiredEvent -= this.TimerExpired;
     }
 
     void ChangeGameMode(GameMode gameMode) {
         this.currentGameMode = gameMode;
+        if (isServer) {
+            this.RpcChangeGameMode(gameMode);
+        }
+    }
 
-        if (gameMode == GameMode.CHAT)
-        {
-            GameObject[] connectedPlayers = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
-            GameObject[] hackablePlayers = GameObject.FindGameObjectsWithTag("HackablePlayer");
-            for (int i = 0; i < hackablePlayers.Length; i++)
-            {
-                if (i > connectedPlayers.Length)
-                {
-                    hackablePlayers[i].SetActive(false);
+    void TimerExpired() {
+        switch (this.currentGameMode) {
+            case GameMode.CHAT:
+                EventManager.ChangeGameMode(GameMode.VOTE);
+                break;
+            case GameMode.VOTE:
+                this.currentRound++;
+                if (this.currentRound >= this.defaultRounds) {
+                    EventManager.ChangeGameMode(GameMode.RESULTS);
+                } else {
+                    EventManager.ChangeGameMode(GameMode.CHAT);
                 }
-                else
-                {
-                    hackablePlayers[i].SetActive(true);
-                    hackablePlayers[i].GetComponent<HackablePlayerIcon>().player = connectedPlayers[i];
-                    hackablePlayers[i].GetComponent<Image>().color = connectedPlayers[i].GetComponent<Player>().getColor();
-                }
-            }
+                break;
+            default:
+                break;
         }
     }
 
@@ -86,7 +87,9 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcChangeGameMode(GameMode gameMode)
     {
-        EventManager.ChangeGameMode(gameMode);
+        if (isClientOnly) {
+            EventManager.ChangeGameMode(gameMode);
+        }
         Debug.Log("Server called me");
     }
 }

@@ -1,5 +1,6 @@
 public enum GameMode {
     MENU,
     CHAT,
-    VOTE
+    VOTE,
+    RESULTS
 }
