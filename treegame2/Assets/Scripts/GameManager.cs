@@ -95,6 +95,8 @@ public class GameManager : NetworkBehaviour
         } else {
             RpcVote(playerID);
         }
+
+        voteCanvas.enabled = false;
     }
 
     void AddVote(int playerID) {
