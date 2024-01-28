@@ -19,6 +19,17 @@ public class GameManager : NetworkBehaviour
 
     readonly Dictionary<int, int> votesByPlayerID = new Dictionary<int, int>();
 
+    public static GameManager singleton { get; private set; }
+
+    private void Awake() 
+    { 
+        if (singleton != null && singleton != this) { 
+            Destroy(this); 
+        } else { 
+            singleton = this; 
+        } 
+    }
+
     void Start()
     {
         this.currentGameMode = GameMode.MENU;
@@ -210,5 +221,14 @@ public class GameManager : NetworkBehaviour
     public void RpcVote(int playerID)
     {
         AddVote(playerID);
+    }
+
+    [ClientRpc]
+    public void RpcFixPlayerUI()
+    {
+        GameObject[] playerGameObjects = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
+        foreach (GameObject pgo in playerGameObjects) {
+            pgo.GetComponent<Player>().FixPlayerUI();
+        }
     }
 }
