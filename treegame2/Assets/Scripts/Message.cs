@@ -5,6 +5,7 @@ using TMPro;
 
 public class Message : MonoBehaviour
 {
+    private int playerID;
     private Color playerColor;
     private string message;
     private bool sentByHacker;
@@ -32,14 +33,12 @@ public class Message : MonoBehaviour
         {
             if (child.gameObject.name == "Name")
             {
-                child.gameObject.GetComponent<TMP_Text>().text = playerColor == Color.green ? "Green" : "Hmm";
+                child.gameObject.GetComponent<TMP_Text>().text = playerID > -1 ? "Player " + playerID : "Moderator";
                 child.gameObject.GetComponent<TMP_Text>().color = playerColor;
             }
             if (child.gameObject.name == "Message")
             {
                 child.gameObject.GetComponent<TMP_Text>().text = message;
-
-               // this.gameObject.transform.localScale = new Vector2(this.gameObject.transform.localScale.x, child.gameObject.transform.localScale.y);
             }
         }
     } 
@@ -47,5 +46,13 @@ public class Message : MonoBehaviour
     public void setPlayerColor(Color playerColor)
     {
         this.playerColor = playerColor;
+    }
+
+    public void SetSentByHacker(bool sentByHacker) {
+        this.sentByHacker = sentByHacker;
+    }
+
+    public void SetPlayerID(int playerID) {
+        this.playerID = playerID;
     }
 }

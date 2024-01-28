@@ -102,11 +102,18 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSendChatMessage(string message, Color color, int playerID, bool sentByHacker)
     {
+        Player localPlayer = FindLocalPlayer();
+        if (playerID > -1 && localPlayer.GetPlayerID() == playerID && sentByHacker) {
+            return;
+        }
+
         GameObject chatContent = GameObject.FindGameObjectWithTag("ChatContent");
         GameObject msgObj = Instantiate(messageObject, chatContent.transform);
         Message msg = msgObj.GetComponent<Message>();
+        msg.SetPlayerID(playerID);
         msg.setPlayerColor(color);
         msg.setMessage(message);
+        msg.SetSentByHacker(sentByHacker);
         msg.transform.localScale = Vector2.one;
 
         ScrollRect chatArea = GameObject.FindGameObjectWithTag("ChatArea").GetComponent<ScrollRect>();
@@ -134,5 +141,32 @@ public class GameManager : NetworkBehaviour
         foreach (GameObject pgo in playerGameObjects) {
             pgo.GetComponent<Player>().FixPlayerUI();
         }
+    }
+
+    public void KickPlayer(int playerID) {
+        GameObject[] playerGameObjects = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
+        foreach (GameObject pgo in playerGameObjects) {
+            Player player = pgo.GetComponent<Player>();
+            if (playerID == player.GetPlayerID()) {
+                player.SetKicked(true);
+                RpcSendChatMessage("Player " + playerID  + " was removed from the chat", Color.white, -1, false);
+            }
+        }
+    }
+
+    void OnGUI () {
+        if (GUI.Button(new Rect(0, 0, 100, 100), "Kick Player"))
+            KickPlayer(1);
+    }
+
+    public Player FindLocalPlayer() {
+        GameObject[] playerGameObjects = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
+        foreach (GameObject pgo in playerGameObjects) {
+            Player player = pgo.GetComponent<Player>();
+            if (player.isLocalPlayer) {
+                return player;
+            }
+        }
+        return null;
     }
 }
