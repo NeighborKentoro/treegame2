@@ -59,7 +59,7 @@ public class GameManager : NetworkBehaviour
                 GameObject.Find("WinnerText").GetComponent<TMP_Text>().text = "Hackers win!";
                 break;
             case Player.Role.member:
-                GameObject.Find("WinnerText").GetComponent<TMP_Text>().text = "Hackers have been elimited! Group chat wins!";
+                GameObject.Find("WinnerText").GetComponent<TMP_Text>().text = "Hackers have been eliminated! Group chat wins!";
                 break;
         }
 
