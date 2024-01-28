@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using TMPro;
 
 public class Player : NetworkBehaviour
 {
@@ -100,11 +99,6 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer) {
             MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
             messageInput.setMessagingAs(playerID, color);
-            TMP_Text playerid = GameObject.Find("PlayerIdText").GetComponent<TMP_Text>();
-            playerid.text = playerID.ToString();
-            playerid.color = color;
-
-            GameObject.Find("PlayerText").GetComponent<TMP_Text>().color = color;
         }
     }
 
