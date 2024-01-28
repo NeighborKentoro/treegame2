@@ -30,6 +30,20 @@ public class Player : NetworkBehaviour
     void Start()
     {
         sprite.color = this.color;
+        if (isLocalPlayer)
+        {
+            GameObject chatArea = GameObject.FindGameObjectWithTag("ChatArea");
+            chatArea.GetComponent<RectTransform>().sizeDelta = new Vector2(715, this.role == Role.hacker ? 750 : 1000);
+
+            if (role == Role.member)
+            {
+                GameObject.Find("HackablePlayers").SetActive(false);
+            }
+            else
+            {
+                GameObject.Find("HackablePlayers").SetActive(true);
+            }
+        }
     }
 
     // Update is called once per frame
