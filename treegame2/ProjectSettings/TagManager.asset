@@ -9,6 +9,7 @@ TagManager:
   - ChatArea
   - ConnectedPlayer
   - HackablePlayer
+  - VotePlayer
   layers:
   - Default
   - TransparentFX
