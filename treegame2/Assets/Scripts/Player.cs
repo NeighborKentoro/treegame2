@@ -46,14 +46,6 @@ public class Player : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            this.transform.position += new Vector3(0.5f, 0f, 0f);
-        }
-    }
-
     void OnEnable() {
         EventManager.userSendMessageEvent += this.UserSendMessage;
     }

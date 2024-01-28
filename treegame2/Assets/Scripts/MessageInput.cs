@@ -29,14 +29,10 @@ public class MessageInput : MonoBehaviour
     private void SendUserMessage(string message)
     {
         message = message.Trim();
-        Debug.Log("send user message");
         if (string.IsNullOrEmpty(message))
         {
-            Debug.Log("Not sending");
             return;
         }
-
-        Debug.Log("sending message");
         EventManager.UserSendMessage(message, messagingAs);
         inputField.text = "";
     }
