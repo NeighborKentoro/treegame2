@@ -20,6 +20,8 @@ public class GameManager : NetworkBehaviour
 
     public Canvas resultsCanvas;
 
+    readonly Dictionary<int, int> votesByPlayerID = new Dictionary<int, int>();
+
     void Start()
     {
         this.currentGameMode = GameMode.MENU;
@@ -71,12 +73,21 @@ public class GameManager : NetworkBehaviour
                 if (this.currentRound >= this.defaultRounds) {
                     EventManager.ChangeGameMode(GameMode.RESULTS);
                 } else {
+                    TallyVotes();
                     EventManager.ChangeGameMode(GameMode.CHAT);
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    void TallyVotes() {
+    
+    }
+
+    public void OnVote(int playerdID) {
+    
     }
 
     public void OnSendChat(string message, Color color, int playerID, bool sentByHacker) {
@@ -100,5 +111,12 @@ public class GameManager : NetworkBehaviour
         if (isClientOnly) {
             EventManager.ChangeGameMode(gameMode);
         }
+    }
+
+    [Command]
+    public void RpcVote(int playerID)
+    {
+
+    
     }
 }

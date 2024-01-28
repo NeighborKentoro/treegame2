@@ -21,6 +21,9 @@ public class Player : NetworkBehaviour
     [SyncVar]
     private int playerID;
 
+    [SyncVar]
+    private bool kicked;
+
     public SpriteRenderer sprite;
 
     // Start is called before the first frame update
@@ -70,6 +73,14 @@ public class Player : NetworkBehaviour
 
     public void SetRole(Role role) {
         this.role = role;
+    }
+
+    public bool GetKicked() {
+        return this.kicked;
+    }
+
+    public void SetKicked(bool kicked) {
+        this.kicked = kicked;
     }
 
     public void UserSendMessage(string message, int playerID) {

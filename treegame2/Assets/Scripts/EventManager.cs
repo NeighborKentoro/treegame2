@@ -14,6 +14,9 @@ public class EventManager : MonoBehaviour
     public delegate void PlayerChatAction(string message, Color color, int playerID, bool sentByHacker);
     public static event PlayerChatAction playerChatEvent;
 
+    public delegate void VoteAction(int playerID);
+    public static event VoteAction voteEvent;
+
     public delegate void NetworkAction();
     public static event NetworkAction onClientDisconnectEvent;
     public static event NetworkAction onServerConnectEvent;
@@ -53,5 +56,9 @@ public class EventManager : MonoBehaviour
 
     public static void OnPlayerChat(string message, Color color, int playerID, bool sentByHacker) {
         playerChatEvent?.Invoke(message, color, playerID, sentByHacker);
+    }
+
+    public static void OnVote(int playerID) {
+        voteEvent?.Invoke(playerID);
     }
 }
