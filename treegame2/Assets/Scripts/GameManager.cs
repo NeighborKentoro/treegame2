@@ -46,6 +46,12 @@ public class GameManager : NetworkBehaviour
 
     void ChangeGameMode(GameMode gameMode) {
         this.currentGameMode = gameMode;
+
+        switch(gameMode)
+        {
+          
+        }
+
         if (isServer) {
             this.RpcChangeGameMode(gameMode);
         }

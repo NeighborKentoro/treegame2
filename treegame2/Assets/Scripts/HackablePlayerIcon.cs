@@ -11,13 +11,13 @@ public class HackablePlayerIcon : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().getRole() == Player.Role.hacker)
-        {
-            this.gameObject.SetActive(true);
-        } else
-        {
-            this.gameObject.SetActive(false);
-        }
+        //if (GameObject.FindGameObjectWithTag("Player").GetComponent<Player>().getRole() == Player.Role.hacker)
+        //{
+        //    this.gameObject.SetActive(true);
+        //} else
+        //{
+        //    this.gameObject.SetActive(false);
+        //}
         Button btn = this.GetComponent<Button>();
         btn.onClick.AddListener(clicked);
     }
