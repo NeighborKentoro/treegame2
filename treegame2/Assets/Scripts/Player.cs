@@ -32,6 +32,8 @@ public class Player : NetworkBehaviour
         sprite.color = this.color;
         if (isLocalPlayer)
         {
+            MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
+            messageInput.setMessagingAs(playerID, color);
             GameObject chatArea = GameObject.FindGameObjectWithTag("ChatArea");
             chatArea.GetComponent<RectTransform>().sizeDelta = new Vector2(715, this.role == Role.hacker ? 750 : 1000);
 
