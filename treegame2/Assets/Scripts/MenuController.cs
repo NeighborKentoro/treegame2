@@ -94,7 +94,6 @@ public class MenuController : MonoBehaviour
 
     public void Connect(ServerResponse info)
     {
-        Debug.Log("connecting to host");
         networkDiscovery.StopDiscovery();
         NetworkManager.singleton.StartClient(info.uri);
         this.findGameCanvas.enabled = false;

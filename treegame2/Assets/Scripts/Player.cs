@@ -72,8 +72,7 @@ public class Player : NetworkBehaviour
         if (isLocalPlayer) {
             PlayerChatMessage chatMessage = new PlayerChatMessage {
                 playerID = playerID,
-                message = message,
-                sentByHacker = playerID != this.playerID
+                message = message
             };
             NetworkClient.Send(chatMessage);
         }

@@ -16,20 +16,9 @@ public class GameManager : NetworkBehaviour
 
     public int defaultRounds;
 
-    // Start is called before the first frame update
     void Start()
     {
         this.currentGameMode = GameMode.MENU;
-    }
-
-    void OnGUI()
-    {
-        if (isServer) {
-            if (GUI.Button(new Rect(100, 700, 200, 100), "Change Game Mode")) {
-                EventManager.ChangeGameMode(GameMode.CHAT);
-                Debug.Log("NUM PLAYERS: " + NetworkManager.singleton.numPlayers);
-            }
-        }
     }
 
     void OnEnable() {
