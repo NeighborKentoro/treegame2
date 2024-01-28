@@ -4,6 +4,11 @@ using Mirror;
 using UnityEngine;
 
 public struct CreatePlayerMessage : NetworkMessage { }
+public struct PlayerChatMessage : NetworkMessage {
+    public int playerID;
+    public string message;
+    public bool sentByHacker;
+}
 
 
 public class HackerNetworkManager : NetworkManager
@@ -32,6 +37,7 @@ public class HackerNetworkManager : NetworkManager
         base.OnStartServer();
 
         NetworkServer.RegisterHandler<CreatePlayerMessage>(OnCreateCharacter);
+        NetworkServer.RegisterHandler<PlayerChatMessage>(OnPlayerChat);
     }
 
     public override void OnClientConnect()
@@ -50,5 +56,9 @@ public class HackerNetworkManager : NetworkManager
         player.setColor(this.playerColors[NetworkManager.singleton.numPlayers]);
         player.SetPlayerID(NetworkManager.singleton.numPlayers);
         NetworkServer.AddPlayerForConnection(conn, gameobject);
+    }
+
+    void OnPlayerChat(NetworkConnectionToClient conn, PlayerChatMessage message) {
+        Debug.Log("Received " + message.message + " from " + message.playerID);
     }
 }

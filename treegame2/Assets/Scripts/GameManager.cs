@@ -34,13 +34,11 @@ public class GameManager : NetworkBehaviour
 
     void OnEnable() {
         EventManager.changeGameModeEvent += this.ChangeGameMode;
-        EventManager.userSendMessageEvent += this.UserSendMessage;
         EventManager.timerExpiredEvent += this.TimerExpired;
     }
 
     void OnDisable() {
         EventManager.changeGameModeEvent -= this.ChangeGameMode;
-        EventManager.userSendMessageEvent -= this.UserSendMessage;
         EventManager.timerExpiredEvent -= this.TimerExpired;
     }
 
@@ -79,9 +77,6 @@ public class GameManager : NetworkBehaviour
         msg.setPlayerColor(player.getColor());
         msg.setMessage(message);
         msg.transform.localScale = Vector2.one;
-
-        // networking
-
     }
 
     [ClientRpc]
@@ -90,6 +85,5 @@ public class GameManager : NetworkBehaviour
         if (isClientOnly) {
             EventManager.ChangeGameMode(gameMode);
         }
-        Debug.Log("Server called me");
     }
 }
