@@ -89,10 +89,6 @@ public class MenuController : MonoBehaviour
 
     void ChangeGameMode(GameMode gameMode, Player.Role winner) {
 
-        if (winner != Player.Role.none) {
-        
-        }
-
         switch(gameMode)
         {
             case GameMode.CHAT:
