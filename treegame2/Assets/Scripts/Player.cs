@@ -6,7 +6,7 @@ using Mirror;
 public class Player : NetworkBehaviour
 {
     [SerializeField]
-    public enum Role
+    enum Role
     {
         hacker,
         member
@@ -17,6 +17,9 @@ public class Player : NetworkBehaviour
 
     [SerializeField,SyncVar]
     private Color color;
+
+    [SyncVar]
+    private int playerID;
 
     public SpriteRenderer sprite;
 
@@ -44,8 +47,11 @@ public class Player : NetworkBehaviour
         this.color = color;
     }
 
-    public Role getRole()
-    {
-        return this.role;
+    public int GetPlayerID() {
+        return this.playerID;
+    }
+
+    public void SetPlayerID(int id) {
+        this.playerID = id;
     }
 }

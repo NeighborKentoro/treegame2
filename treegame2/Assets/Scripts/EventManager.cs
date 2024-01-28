@@ -11,6 +11,9 @@ public class EventManager : MonoBehaviour
     public delegate void UserSendMessageAction(string message);
     public static event UserSendMessageAction userSendMessageEvent;
 
+    public delegate void NetworkAction();
+    public static event NetworkAction onClientDisconnectEvent;
+
     public static void ChangeGameMode(GameMode gameMode) {
         changeGameModeEvent?.Invoke(gameMode);
     }
@@ -21,4 +24,7 @@ public class EventManager : MonoBehaviour
         userSendMessageEvent?.Invoke(message);
     }
 
+    public static void OnClientDisconnect() {
+        onClientDisconnectEvent?.Invoke();
+    }
 }

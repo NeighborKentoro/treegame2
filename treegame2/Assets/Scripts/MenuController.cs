@@ -19,10 +19,12 @@ public class MenuController : MonoBehaviour
 
     void OnEnable() {
         networkDiscovery.OnServerFound.AddListener(OnDiscoveredServer);
+        EventManager.onClientDisconnectEvent += OnClientDisconnect;
     }
 
     void OnDisable() {
         networkDiscovery.OnServerFound.RemoveListener(OnDiscoveredServer);
+        EventManager.onClientDisconnectEvent -= OnClientDisconnect;
     }
 
     public void HostGame() {
@@ -70,6 +72,11 @@ public class MenuController : MonoBehaviour
             //Stop playing the scene
             UnityEditor.EditorApplication.isPlaying = false;
         #endif
+    }
+
+    public void OnClientDisconnect() {
+        this.roomCanvas.enabled = false;
+        this.mainMenuCanvas.enabled = true;
     }
 
     public void Connect(ServerResponse info)
