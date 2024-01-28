@@ -5,7 +5,7 @@ using UnityEngine;
 public class EventManager : MonoBehaviour
 {
 
-    public delegate void ChangeGameModeAction(GameMode gameMode);
+    public delegate void ChangeGameModeAction(GameMode gameMode, Player.Role winner);
 	public static event ChangeGameModeAction changeGameModeEvent;
 
     public delegate void UserSendMessageAction(string message, int playerID);
@@ -26,8 +26,8 @@ public class EventManager : MonoBehaviour
     public delegate void TimerAction();
     public static event TimerAction timerExpiredEvent;
 
-    public static void ChangeGameMode(GameMode gameMode) {
-        changeGameModeEvent?.Invoke(gameMode);
+    public static void ChangeGameMode(GameMode gameMode, Player.Role winner) {
+        changeGameModeEvent?.Invoke(gameMode, winner);
     }
 
     public static void UserSendMessage(string message, int playerID)

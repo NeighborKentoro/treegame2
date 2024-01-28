@@ -114,7 +114,7 @@ public class HackerNetworkManager : NetworkManager
         }
     }
 
-    private Player[] orderPlayerArray(GameObject[] players)
+    public Player[] orderPlayerArray(GameObject[] players)
     {
         Player[] playerArray = new Player[players.Length];
 
