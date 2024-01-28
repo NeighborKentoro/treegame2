@@ -117,6 +117,7 @@ public class Player : NetworkBehaviour
             playerid.text = playerID.ToString();
             playerid.color = color;
 
+            GameObject.Find("PlayerText").GetComponent<TMP_Text>().text = "Player";
             GameObject.Find("PlayerText").GetComponent<TMP_Text>().color = color;
         }
     }
