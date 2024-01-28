@@ -74,7 +74,6 @@ public class HackerNetworkManager : NetworkManager
     }
 
     void OnPlayerChat(NetworkConnectionToClient conn, PlayerChatMessage pcm) {
-        Debug.Log("Received " + pcm.message + " from player " + pcm.playerID);
         Color msgColor = this.playerColors[pcm.playerID];
         bool sentByHacker = this.playerIDByConnectionID[conn.connectionId] != pcm.playerID;
         EventManager.OnPlayerChat(pcm.message, msgColor, pcm.playerID, sentByHacker);
@@ -86,12 +85,17 @@ public class HackerNetworkManager : NetworkManager
             GameObject hackButton = hackButtons[i];
             HackablePlayerIcon hpi = hackButton.GetComponent<HackablePlayerIcon>();
             if (i < playerIDByConnectionID.Count) {
-                hpi.enabled = true;
+                hpi.btn.enabled = true;
+                hpi.btn.image.enabled = true;
                 int playerID = playerIDByConnectionID.Values.ElementAt(i);
                 hpi.playerID = playerID;
-                hpi.color = this.playerColors[playerID];
+                hpi.textMesh.text = playerID.ToString();
+                hpi.btn.image.color = this.playerColors[playerID];
             } else {
                 hpi.playerID = -1;
+                hpi.btn.enabled = false;
+                hpi.btn.image.enabled = false;
+                hpi.textMesh.text = "";
             }
         }
     }

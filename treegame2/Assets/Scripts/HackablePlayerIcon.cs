@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,19 +15,13 @@ public class HackablePlayerIcon : NetworkBehaviour
 
     public Button btn;
 
+    public TextMeshProUGUI textMesh;
+
     void Start()
     {
         btn = this.GetComponent<Button>();
         btn.onClick.AddListener(clicked);
-    }
-
-    void Update()
-    {
-        if (playerID < 0) {
-            btn.enabled = false;
-        } else {
-            btn.enabled = true;
-        }
+        textMesh = this.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     public void clicked()

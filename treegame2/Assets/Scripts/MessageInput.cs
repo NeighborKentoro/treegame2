@@ -38,15 +38,16 @@ public class MessageInput : MonoBehaviour
 
         Debug.Log("sending message");
         EventManager.UserSendMessage(message, messagingAs);
+        inputField.text = "";
     }
 
     public void setMessagingAs(int playerID, Color color)
     {
         this.messagingAs = playerID;
         GameObject placeholder = GameObject.Find("MessageInputPlaceholder");
-        placeholder.GetComponent<TMP_Text>().text = "Messaging as other player...";
+        placeholder.GetComponent<TMP_Text>().text = "Messaging as player " + playerID;
 
         GameObject messageInputText = GameObject.Find("MessageInputText");
-        messageInputText.GetComponent<TMP_Text>().color = color;
+        messageInputText.GetComponent<TMP_Text>().faceColor = color;
     }
 }
