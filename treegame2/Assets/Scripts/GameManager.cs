@@ -14,11 +14,6 @@ public class GameManager : NetworkBehaviour
     public int defaultRounds;
 
     public GameObject messageObject;
-    public Canvas chatCanvas;
-
-    public Canvas voteCanvas;
-
-    public Canvas resultsCanvas;
 
     readonly Dictionary<int, int> votesByPlayerID = new Dictionary<int, int>();
 
@@ -43,23 +38,6 @@ public class GameManager : NetworkBehaviour
 
     void ChangeGameMode(GameMode gameMode) {
         this.currentGameMode = gameMode;
-        switch(gameMode)
-        {
-            case GameMode.CHAT:
-                voteCanvas.enabled = false;
-                chatCanvas.enabled = true;
-                break;
-            case GameMode.VOTE:
-                chatCanvas.enabled=false;
-                voteCanvas.enabled=true;
-                break;
-            case GameMode.RESULTS:
-                chatCanvas.enabled = false;
-                voteCanvas.enabled = false;
-                resultsCanvas.enabled = true;
-                break;
-        }
-
         if (isServer) {
             this.RpcChangeGameMode(gameMode);
         }
@@ -95,8 +73,6 @@ public class GameManager : NetworkBehaviour
         } else {
             RpcVote(playerID);
         }
-
-        voteCanvas.enabled = false;
     }
 
     void AddVote(int playerID) {

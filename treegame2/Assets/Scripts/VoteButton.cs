@@ -28,7 +28,16 @@ public class VoteButton : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (this.playerID < 0) {
+            this.btn.enabled = false;
+            this.btn.image.enabled = false;
+            this.textMesh.text = "";
+        } else {
+            // this.enabled = true;
+            this.btn.enabled = true;
+            this.textMesh.text = playerID.ToString();
+            this.btn.image.color = this.color;
+        }
     }
 
     public void clicked()

@@ -7636,6 +7636,7 @@ MonoBehaviour:
   roomCanvas: {fileID: 3263173636458418508}
   chatCanvas: {fileID: 3311120227198802310}
   voteCanvas: {fileID: 3019156954554788206}
+  resultsCanvas: {fileID: 5659542885152411085}
   hostedGameButton: {fileID: 1057295437591549436}
   startGameButton: {fileID: 4812873912350160373}
 --- !u!1 &7067271036770525717

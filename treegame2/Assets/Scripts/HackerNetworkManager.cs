@@ -97,32 +97,17 @@ public class HackerNetworkManager : NetworkManager
         for (int i = 0; i < 8; i++) {
             GameObject hackButton = hackButtons[i];
             GameObject voteButton = voteButtons[i];
-            // GameObject voteButton = voteButtons[i];
             HackablePlayerIcon hpi = hackButton.GetComponent<HackablePlayerIcon>();
             VoteButton voteButt = voteButton.GetComponent<VoteButton>();
             if (i < playerIDByConnectionID.Count) {
-                hpi.btn.enabled = true;
-                hpi.btn.image.enabled = true;
                 int playerID = playerIDByConnectionID.Values.ElementAt(i);
                 hpi.playerID = playerID;
-                hpi.textMesh.text = playerID.ToString();
-                hpi.btn.image.color = this.playerColors[playerID];
-
-                voteButt.enabled = true;
-                voteButt.btn.enabled = true;
+                hpi.color = this.playerColors[playerID];
                 voteButt.playerID = playerID;
-                voteButt.textMesh.text = playerID.ToString();
-                voteButt.btn.image.color = this.playerColors[playerID];
+                voteButt.color = this.playerColors[playerID];
             } else {
                 hpi.playerID = -1;
-                hpi.btn.enabled = false;
-                hpi.btn.image.enabled = false;
-                hpi.textMesh.text = "";
-
                 voteButt.playerID = -1;
-                voteButt.btn.enabled = false;
-                voteButt.btn.image.enabled = false;
-                voteButt.textMesh.text = "";
             }
         }
     }

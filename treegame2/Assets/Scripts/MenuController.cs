@@ -20,6 +20,8 @@ public class MenuController : MonoBehaviour
 
     public Canvas voteCanvas;
 
+    public Canvas resultsCanvas;
+
     public GameObject hostedGameButton;
 
     public Button startGameButton;
@@ -29,6 +31,8 @@ public class MenuController : MonoBehaviour
         EventManager.onClientDisconnectEvent += OnClientDisconnect;
         EventManager.onServerConnectEvent += OnServerConnect;
         EventManager.onServerDisconnectEvent += OnServerDisconnect;
+        EventManager.changeGameModeEvent += this.ChangeGameMode;
+        EventManager.voteEvent += this.OnVote;
     }
 
     void OnDisable() {
@@ -36,6 +40,8 @@ public class MenuController : MonoBehaviour
         EventManager.onClientDisconnectEvent -= OnClientDisconnect;
         EventManager.onServerConnectEvent -= OnServerConnect;
         EventManager.onServerDisconnectEvent -= OnServerDisconnect;
+        EventManager.changeGameModeEvent -= this.ChangeGameMode;
+        EventManager.voteEvent += this.OnVote;
     }
 
     public void HostGame() {
@@ -79,6 +85,30 @@ public class MenuController : MonoBehaviour
         this.roomCanvas.enabled = false;
         this.chatCanvas.enabled = true;
         EventManager.OnStartGame();
+    }
+
+    void ChangeGameMode(GameMode gameMode) {
+        switch(gameMode)
+        {
+            case GameMode.CHAT:
+                roomCanvas.enabled = false;
+                voteCanvas.enabled = false;
+                chatCanvas.enabled = true;
+                break;
+            case GameMode.VOTE:
+                chatCanvas.enabled=false;
+                voteCanvas.enabled=true;
+                break;
+            case GameMode.RESULTS:
+                chatCanvas.enabled = false;
+                voteCanvas.enabled = false;
+                resultsCanvas.enabled = true;
+                break;
+        }
+    }
+
+    public void OnVote(int playerID) {
+        voteCanvas.enabled = false;
     }
 
     public void ExitGame() {
