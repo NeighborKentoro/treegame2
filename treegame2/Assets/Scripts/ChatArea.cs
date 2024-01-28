@@ -16,6 +16,6 @@ public class ChatArea : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //this.gameObject.scrollOffset = scrollView.contentContainer.layout.max - scrollView.contentViewport.layout.size;
     }
 }

@@ -81,13 +81,14 @@ public class HackerNetworkManager : NetworkManager
 
     public void OnStartGame() {
         GameObject[] players = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
+        Player[] playerSorted = this.orderPlayerArray(players);
         int hackerCount = playerIDByConnectionID.Count == 8 ? 3 : 2;
         HashSet<int> hackerIDs = new HashSet<int>();
         while (hackerIDs.Count < hackerCount) {
             int randomID = Random.Range(0, playerIDByConnectionID.Count);
             if (!hackerIDs.Contains(randomID)) {
                 hackerIDs.Add(randomID);
-                players[randomID].GetComponent<Player>().SetRole(Player.Role.hacker);
+                playerSorted[randomID].SetRole(Player.Role.hacker);
             }
         }
         
@@ -124,5 +125,17 @@ public class HackerNetworkManager : NetworkManager
                 voteButt.textMesh.text = "";
             }
         }
+    }
+
+    private Player[] orderPlayerArray(GameObject[] players)
+    {
+        Player[] playerArray = new Player[players.Length];
+
+        foreach(GameObject gameObject in players)
+        {
+            playerArray.Append(gameObject.GetComponent<Player>());
+        }
+
+        return playerArray.OrderBy(x => x.GetPlayerID()).ToArray();
     }
 }
