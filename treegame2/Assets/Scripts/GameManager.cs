@@ -258,11 +258,6 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    void OnGUI () {
-        if (GUI.Button(new Rect(0, 0, 100, 100), "Kick Player"))
-            KickPlayer(1);
-    }
-
     public Player FindLocalPlayer() {
         GameObject[] playerGameObjects = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
         foreach (GameObject pgo in playerGameObjects) {
