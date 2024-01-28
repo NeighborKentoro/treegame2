@@ -40,8 +40,8 @@ public class Player : NetworkBehaviour
 
     void Update() {
         if (isLocalPlayer) {
-            hackablePlayers.SetActive(role == Role.hacker);
-            rectTrans.sizeDelta = new Vector2(715, this.role == Role.hacker ? 750 : 1000);
+            hackablePlayers.SetActive(role == Role.hacker && !kicked);
+            rectTrans.sizeDelta = new Vector2(715, this.role == Role.hacker && !kicked ? 750 : 1000);
         }
     }
 
@@ -84,10 +84,6 @@ public class Player : NetworkBehaviour
         return this.kicked;
     }
 
-    public void SetKicked(bool kicked) {
-        this.kicked = kicked;
-    }
-
     public void UserSendMessage(string message, int playerID) {
         if (isLocalPlayer) {
             PlayerChatMessage chatMessage = new PlayerChatMessage {
@@ -103,6 +99,26 @@ public class Player : NetworkBehaviour
             MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
             messageInput.setMessagingAs(playerID, color);
             
+        }
+    }
+
+    public void KickMe() {
+        this.kicked = true;
+        NetworkIdentity netIdentity = this.GetComponent<NetworkIdentity>();
+        RpcKickMe(netIdentity.connectionToClient);
+    
+    }
+
+    [TargetRpc]
+    public void RpcKickMe(NetworkConnectionToClient target)
+    {
+        MessageInput messageInput = GameObject.Find("MessageInput").GetComponent<MessageInput>();
+        messageInput.DisableInputField();
+        GameObject[] voteButtons = GameObject.FindGameObjectsWithTag("VotePlayer");
+        for (int i = 0; i < 8; i++) {
+            GameObject voteButton = voteButtons[i];
+            VoteButton voteButt = voteButton.GetComponent<VoteButton>();
+            voteButt.playerID = -1;
         }
     }
 }

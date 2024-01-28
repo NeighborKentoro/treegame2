@@ -51,4 +51,8 @@ public class MessageInput : MonoBehaviour
         GameObject messageInputText = GameObject.Find("MessageInputText");
         messageInputText.GetComponent<TMP_Text>().faceColor = color;
     }
+
+    public void DisableInputField() {
+        inputField.interactable = false;
+    }
 }

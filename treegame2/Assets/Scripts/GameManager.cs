@@ -239,12 +239,14 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+        
+
     public void KickPlayer(int playerID) {
         GameObject[] playerGameObjects = GameObject.FindGameObjectsWithTag("ConnectedPlayer");
         foreach (GameObject pgo in playerGameObjects) {
             Player player = pgo.GetComponent<Player>();
             if (playerID == player.GetPlayerID()) {
-                player.SetKicked(true);
+                player.KickMe();
                 RpcSendChatMessage("Player " + playerID  + " was removed from the chat", Color.white, -1, false);
             }
         }

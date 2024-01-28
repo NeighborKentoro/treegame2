@@ -14,7 +14,7 @@ public struct PlayerChatMessage : NetworkMessage {
 public class HackerNetworkManager : NetworkManager
 {
     readonly Stack<int> availablePlayerIDs = new Stack<int>();
-    readonly Dictionary<int, int> playerIDByConnectionID = new Dictionary<int, int>();
+    public readonly Dictionary<int, int> playerIDByConnectionID = new Dictionary<int, int>();
     public Color[] playerColors = new Color[8];
 
     void OnEnable() {

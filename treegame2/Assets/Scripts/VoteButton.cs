@@ -33,7 +33,6 @@ public class VoteButton : NetworkBehaviour
             this.btn.image.enabled = false;
             this.textMesh.text = "";
         } else {
-            // this.enabled = true;
             this.btn.enabled = true;
             this.textMesh.text = playerID.ToString();
             this.btn.image.color = this.color;
